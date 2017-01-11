@@ -6,7 +6,7 @@
 /*   By: kbagot <kbagot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 12:43:48 by kbagot            #+#    #+#             */
-/*   Updated: 2017/01/11 14:31:56 by kbagot           ###   ########.fr       */
+/*   Updated: 2017/01/11 16:20:15 by kbagot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,53 +17,34 @@
 void	ft_put_cross(void *mlx, int **map, var_list *var)
 {
 	int		x;
-	int		tmpx;
-	int		tmpy;
-
+//	int		tmpx;
+//	int		tmpy;
+	
+	var->x1 = xorigin + ((-xvarl * var->i) + (ix * var->j));
+	var->y1 = yorigin + ((yvarl * var->i) + (iy * var->j));
+	if (map[var->i][var->j] > 0)
+		var->y1 += -map[var->i][var->j] - 10;
 	x = var->x1;
 	if (!var->win)
-		var->win = mlx_new_window(mlx, 500, 500, "fdf");
-	if (map[var->i][var->j] == 0)
+		var->win = mlx_new_window(mlx, 800, 800, "fdf");
+	var->x2 = xorigin + ((-xvarl * var->i) + (ix * (var->j + 1)));
+	var->y2 = yorigin + ((yvarl * var->i) + (iy * (var->j + 1)));
+	if (map[var->i][var->j + 1] > 0)
+		var->y2 += -map[var->i][var->j] - 10; 
+	while (x <= var->x2)
 	{
-		var->x2 = var->x1 + ix;
-		var->y2 = var->y1 + iy;
-		while (x <= var->x2)
-		{
-			mlx_pixel_put(mlx, var->win, x, var->y1+((var->y2-var->y1)*(x-var->x1))
-					/(var->x2-var->x1), 0x00EE2C2C);
-			x++;
-		}
+		mlx_pixel_put(mlx, var->win, x, var->y1+((var->y2-var->y1)*(x-var->x1))
+				/(var->x2-var->x1), 0x00EE2C2C);
+		x++;
 	}
-	else
-	{
-	//	var->x2 = 0.5 * var->x1 - 1 * var->y1;
-	//	var->y2 = map[var->i][var->j] + 0.5/2 + 1/2 * var->y2;
-//		var->x2 = var->x1 + 1 * map[var->i][var->j];
-//		var->y2 = var->y1 + 1/2 * map[var->i][var->j];
-		var->x2 = var->x1 + ix;
-		var->y2 = var->y1 - map[var->i][var->j] - 10;
-		while (x <= var->x2)
-		{
-			mlx_pixel_put(mlx, var->win, x, var->y1+((var->y2-var->y1)*(x-var->x1))
-					/(var->x2-var->x1), 0x00EE2C2C);
-			x++;
-		}
-	}
-	tmpx = var->x2;
-	tmpy = var->y2;
 	if (var->i > 0)
 	{
-		var->x2 = var->xstart + xvarl + ((var->j - 1) * ix);
-		var->y2 = var->ystart - yvarl + ((var->j - 1) * iy);
+		var->x2 = xorigin + ((-xvarl * (var->i - 1)) + (ix * var->j));
+		var->y2 = yorigin + ((yvarl * (var->i - 1)) + (iy * var->j));
 		if (map[var->i - 1][var->j] > 0)
-		{
-		//	var->x2 = var->x1 + ix + xvarl;
-		//	var->y2 = var->y1 - map[var->i][var->j] - 15 - yvarl;
-			var->x2 = var->x2 + ix;
-			var->y2 = var->y2 - map[var->i - 1][var->j] - 10;
-//			var->x2 = var->x2 + 0.8 * map[var->i - 1][var->j - 1];
-//			var->y2 = (var->y2 + (0.8/2) * map[var->i - 1][var->j - 1]);
-		}
+			var->y2 += -map[var->i - 1][var->j] - 10;
+//		var->x2 = var->xstart + xvarl + ((var->j - 1) * ix);
+//		var->y2 = var->ystart - yvarl + ((var->j - 1) * iy);
 		x = var->x1;
 		while (x <= var->x2)
 		{
@@ -72,8 +53,6 @@ void	ft_put_cross(void *mlx, int **map, var_list *var)
 			x++;
 		}
 	}
-	var->x1 = tmpx;
-	var->y1 = tmpy;
 }
 
 void		fdf_fill(int **map, void *mlx , int l)
