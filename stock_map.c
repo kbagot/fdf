@@ -6,7 +6,7 @@
 /*   By: kbagot <kbagot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/05 12:08:16 by kbagot            #+#    #+#             */
-/*   Updated: 2017/01/09 16:52:20 by kbagot           ###   ########.fr       */
+/*   Updated: 2017/01/16 15:49:08 by kbagot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,20 @@ int			find_data(char **argv, int l)
 
 	line = NULL;
 	fd = open(argv[1], O_RDONLY);
+	if (fd == -1)
+	{
+		write (1, "No file ", 8);
+		ft_putstr(argv[1]);
+		write (1, "\n", 1);
+		return (-1);
+	}
 	while (get_next_line(fd, &line))
 		l++;
+	if (l == 0)
+	{	
+		write (1, "No data found.\n", 15);
+		return (-1);
+	}
 	close(fd);
 	return (l);
 }
@@ -36,7 +48,7 @@ static int	**make_stock(char *line, int **map)
 	l = 0;
 	str = ft_strsplit(line, ' ');
 	while (str[++l])
-	map[i] = (int*)malloc(sizeof(int) * l + 1);
+		map[i] = (int*)malloc(sizeof(int) * l + 1);
 	map[i][0] = l;
 	j = 0;
 	while (str[j])
@@ -55,6 +67,8 @@ int			**stock_map(int **map, char **argv, int l)
 
 	line = NULL;
 	l = find_data(argv, l);
+	if (l == -1)
+		return (0);
 	fd = open(argv[1], O_RDONLY);
 	map = (int**)malloc(sizeof(int*) * l);
 	while (get_next_line(fd, &line))

@@ -6,48 +6,43 @@
 /*   By: kbagot <kbagot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 12:35:33 by kbagot            #+#    #+#             */
-/*   Updated: 2017/01/10 17:16:04 by kbagot           ###   ########.fr       */
+/*   Updated: 2017/01/16 15:48:14 by kbagot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int			main(int argc, char **argv)
+int		key_lol(int keycode, var_list *var)
 {
-//	int		x1;
-//	int		y1;
-	int		**map;
-//	int		i;
-//	int		j;
-//	int		test = 0;
-	int		l;
+	int lol;
+
+	lol = var->i;
+	if (keycode == 53)
+		exit(0);
+	return (0);
+}
+
+int		main(int argc, char **argv)
+{
+	int			**map;
+	int			l;
+	var_list	*var;
 
 	l = 0;
-//	i = 0;
-//	j = 0;
-//	x1 = 140;
-//	y1 = 90;
 	map = NULL;
-	if (!mlx)
-		mlx = mlx_init();
-	if (argc == 2)
+	var = (var_list*)malloc(sizeof(var_list));
+	var->mlx = NULL;
+	if (argc != 2)
 	{
-		map = stock_map(map, argv, l);
-		l = find_data(argv, l);
-		fdf_fill(map, mlx, l);
+		write(1, "Usage : ./fdf <filename> [ case_size z_size i]\n", 47);
+		return (0);
 	}
-/*	while (i < l) // affichage of stock.
-	{
-		test = 0;
-		j = 0;
-		while (j <= map[i][0])
-		{
-			printf("%d", map[i][test]);
-			test++;
-			j++;
-		}
-		printf("\n");
-		i++;
-	}*/
-	mlx_loop(mlx);
+	map = stock_map(map, argv, l);
+	if (map == NULL)
+		return (0);
+	var->mlx = mlx_init();
+	l = find_data(argv, l);
+	fdf_fill(map, l, var);
+	mlx_key_hook(var->win, key_lol, var);
+	mlx_loop(var->mlx);
 }
