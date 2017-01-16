@@ -6,7 +6,7 @@
 /*   By: kbagot <kbagot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 12:35:55 by kbagot            #+#    #+#             */
-/*   Updated: 2017/01/16 15:49:10 by kbagot           ###   ########.fr       */
+/*   Updated: 2017/01/16 19:02:07 by kbagot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@
 # include <mlx.h>
 # include <fcntl.h>
 # include <stdio.h>
+# include <math.h>
 
-# define ix 6//space
-# define iy 0.8//space
-# define xvarl 4.5//newline
-# define yvarl 2.8//newline
-# define xorigin 900//start
-# define yorigin 50//start
+# define IX 6
+# define IY 0.8
+# define XVARL 4.5
+# define YVARL 2.8
+# define XORIGIN 800
+# define YORIGIN 100
 
-
-typedef struct	fdf_list
+typedef struct	s_var
 {
 	void		*mlx;
 	void		*win;
@@ -36,25 +36,24 @@ typedef struct	fdf_list
 	int			y2;
 	int			i;
 	int			j;
-}				var_list;
+}				t_var;
 
-typedef struct	line_m
+typedef struct	s_line
 {
-	int		 i;
-	int		xinc;
-	int		yinc;
-	int		cumul;
-	int		x;
-	int		y;
-	int		dx;
-	int		dy;
-}				var_line;
+	int			i;
+	int			xinc;
+	int			yinc;
+	int			cumul;
+	int			x;
+	int			y;
+	double		dx;
+	double		dy;
+}				t_line;
 
-void		draw_line(char *line, int x1, int y1);
-int			main(int argc, char **argv);
-int			**stock_map(int **map, char **argv, int l);
-int			find_data(char **argv, int l);
-void		fdf_fill(int **map, int l, var_list *var);
-int			key_lol(int keycode, var_list *var);
+void			draw_line(char *line, int x1, int y1);
+int				main(int argc, char **argv);
+int				**stock_map(int **map, char **argv, int l);
+int				find_data(char **argv, int l);
+void			fdf_fill(int **map, int l, t_var *var);
 
 #endif

@@ -6,31 +6,31 @@
 /*   By: kbagot <kbagot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/04 12:35:33 by kbagot            #+#    #+#             */
-/*   Updated: 2017/01/16 15:48:14 by kbagot           ###   ########.fr       */
+/*   Updated: 2017/01/16 17:39:09 by kbagot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int		key_lol(int keycode, var_list *var)
+static int	key_nb(int keycode, t_var *var)
 {
-	int lol;
+	int nb;
 
-	lol = var->i;
+	nb = var->i;
 	if (keycode == 53)
 		exit(0);
 	return (0);
 }
 
-int		main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
-	int			**map;
-	int			l;
-	var_list	*var;
+	int		**map;
+	int		l;
+	t_var	*var;
 
 	l = 0;
 	map = NULL;
-	var = (var_list*)malloc(sizeof(var_list));
+	var = (t_var*)malloc(sizeof(t_var));
 	var->mlx = NULL;
 	if (argc != 2)
 	{
@@ -43,6 +43,6 @@ int		main(int argc, char **argv)
 	var->mlx = mlx_init();
 	l = find_data(argv, l);
 	fdf_fill(map, l, var);
-	mlx_key_hook(var->win, key_lol, var);
+	mlx_key_hook(var->win, key_nb, var);
 	mlx_loop(var->mlx);
 }

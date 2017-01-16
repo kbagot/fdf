@@ -6,7 +6,7 @@
 /*   By: kbagot <kbagot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/05 12:08:16 by kbagot            #+#    #+#             */
-/*   Updated: 2017/01/16 15:49:08 by kbagot           ###   ########.fr       */
+/*   Updated: 2017/01/16 16:13:20 by kbagot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,16 @@ int			find_data(char **argv, int l)
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 	{
-		write (1, "No file ", 8);
+		write(1, "No file ", 8);
 		ft_putstr(argv[1]);
-		write (1, "\n", 1);
+		write(1, "\n", 1);
 		return (-1);
 	}
 	while (get_next_line(fd, &line))
 		l++;
 	if (l == 0)
-	{	
-		write (1, "No data found.\n", 15);
+	{
+		write(1, "No data found.\n", 15);
 		return (-1);
 	}
 	close(fd);
